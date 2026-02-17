@@ -8,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     image: epam/ai-dial-chat:development
-#    platform: linux/amd64
+    #    platform: linux/amd64
     depends_on:
       - themes
       - core
@@ -16,7 +16,7 @@ services:
       NEXTAUTH_SECRET: "secret"
       THEMES_CONFIG_HOST: "http://themes:8080"
       DIAL_API_HOST: "http://core:8080"
-      DIAL_API_KEY: "dial_api_key"
+      DIAL_API_KEY: ${DIAL_API_KEY}
       ENABLED_FEATURES: "conversations-section,prompts-section,top-settings,top-clear-conversation,top-chat-info,top-chat-model-settings,empty-chat-settings,header,footer,request-api-key,report-an-issue,likes,conversations-sharing,prompts-sharing,input-files,attachments-manager,conversations-publishing,prompts-publishing,custom-logo,input-links,custom-applications,message-templates,marketplace,quick-apps,code-apps,mindmap-apps"
       KEEP_ALIVE_TIMEOUT: ${CHAT_KEEP_ALIVE_TIMEOUT:-20000}
 
@@ -26,12 +26,7 @@ services:
     ports:
       - "6379:6379"
     command: >
-      redis-server
-      --maxmemory 2000mb
-      --maxmemory-policy volatile-lfu
-      --save ""
-      --appendonly no
-      --loglevel warning
+      redis-server --maxmemory 2000mb --maxmemory-policy volatile-lfu --save "" --appendonly no --loglevel warning
     mem_limit: 2200M
 
   redis-insight:
@@ -69,7 +64,7 @@ services:
       DIAL_URL: "http://core:8080"
       LOG_LEVEL: "INFO"
 
-# UMS
+  # UMS
   userservice:
     image: khshanovskyi/mockuserservice:latest
     ports:
@@ -111,7 +106,7 @@ services:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
 
-# General-purpose Agent
+  # General-purpose Agent
   python-interpreter-mcp-server:
     image: khshanovskyi/python-code-interpreter-mcp-server:latest
     ports:
