@@ -44,6 +44,7 @@ services:
     environment:
       'AIDIAL_SETTINGS': '/opt/settings/settings.json'
       'JAVA_OPTS': '-Dgflog.config=/opt/settings/gflog.xml'
+      'DIAL_API_KEY': '${DIAL_API_KEY}'
       'LOG_DIR': '/app/log'
       'STORAGE_DIR': '/app/data'
       'aidial.config.files': '["/opt/config/config.json"]'
@@ -99,6 +100,7 @@ services:
       - UMS_MCP_URL=http://ums-mcp-server:8005/mcp
       - DIAL_API_KEY=${DIAL_API_KEY}
       - ORCHESTRATION_MODEL=gpt-4o
+      # - ORCHESTRATION_MODEL=dall-e-3
       - DIAL_URL=https://ai-proxy.lab.epam.com
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -133,13 +135,16 @@ services:
       - redis
       - python-interpreter-mcp-server
       - ddg-search-mcp-server
+      # - dial-proxy
     image: khshanovskyi/dial-gpa-agent:latest
     ports:
       - "8052:5000"
     environment:
       - DIAL_API_KEY=${DIAL_API_KEY}
       - DEPLOYMENT_NAME=gpt-4o
+      # - DEPLOYMENT_NAME=dall-e-3
       - DIAL_ENDPOINT=http://core:8080
+      # - DIAL_ENDPOINT=http://dial-proxy:8085
       - PYINTERPRETER_MCP_URL=http://python-interpreter-mcp-server:8000/mcp
       - DDG_MCP_URL=http://ddg-search-mcp-server:8000/mcp
     volumes:

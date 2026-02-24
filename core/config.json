@@ -57,7 +57,7 @@
     }
   },
   "keys": {
-    "dial_api_key": {
+    "dial-***": {
       "project": "TEST-PROJECT",
       "role": "default"
     }
